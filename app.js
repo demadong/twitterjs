@@ -2,9 +2,12 @@ var swig = require('swig');
 var express = require( 'express' );
 var mime = require('mime');
 var fs = require('fs');
+var socketio = require('socket.io');
 var app = express();
 var port = 3000;
 var routes = require("./routes/");
+
+var router = routes(io);
 
 app.use(function(req,res,next) {
 	console.log(req.method + " " + req.path + " " + res.statusCode);
@@ -21,7 +24,7 @@ app.use(function(req, res, next) {
   })
 })
 
-app.use('/', routes);
+app.use('/', router);
 
 app.engine("html", swig.renderFile);
 app.set('view engine', 'html');
@@ -33,6 +36,5 @@ swig.setDefaults({ cache: false });
 // 	// console.log(output);
 // });
 
-app.listen(port, function() {
-	console.log("server listening");
-});
+var server = app.listen(port);
+var io = socketio.listen(server);

@@ -35,4 +35,6 @@ router.post('/submit', urlencodedParser, function(req, res) {
 })
 
 
-module.exports = router;
+module.exports = function(io) {
+	return router;
+};
