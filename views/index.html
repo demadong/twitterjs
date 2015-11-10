@@ -3,7 +3,7 @@
 {% block content %}
   
   <div class="page-header">
-    <h1>Welcome to Twitter.js, Nimit!</h1>
+    <h1>{{title}}</h1>
   </div>
   <div class="row">
     <div class="col-md-3">
@@ -12,12 +12,12 @@
       100 followers
     </div>
     <div class="col-md-9">
-    
+      <dl class="dl-horizontal">
       <!-- display tweets here -->
-      {% for tweet in tweets %}
-        <li>{{tweet.text}}</li>
-      {% endfor %}
-      
+        {% for tweet in tweets %}
+          <dt><a href="/users/{{tweet.name}}">{{tweet.name}}</a></dt> <dd>{{tweet.text}} <a href="/users/{{tweet.name}}/tweets/{{tweet.id}}">permalink</a></dd>
+        {% endfor %}
+      </dl>
     </div>
   </div>
     

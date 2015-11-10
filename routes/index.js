@@ -5,21 +5,21 @@ var fs = require('fs');
 
 router.get('/', function(req, res) {
 	var tweets = tweetBank.list();
-	console.log(tweets.length);
 	console.log(tweets);
 	res.render('index', {title: 'Twitter.js', tweets: tweets });
 });
 
-//use css
-router.use('/public', function(req, res, next){
-	// var fileNames = fs.readdirSync(__dirname + "/../public/stylesheets");
-	// console.log(fileNames);
-	var options = {
-		root: __dirname + '/../public'
-	};
-	res.sendFile(req.path, options, function(err){
-		if (err) next(err);
-		else next();
-	})
+router.get('/users/:name', function(req, res) {
+  var name = req.params.name;
+  var list = tweetBank.find( {name: name} );
+  res.render( 'index', { title: 'Twitter.js - Posts by '+name, tweets: list } );
 });
+
+router.get('/users/:name/tweets/:id', function(req, res){
+	var name = req.params.name;
+	var id = req.params.id;
+	var list = tweetBank.find( {"id": id, name: name});
+	res.render( 'index', { title: 'Twitter.js - Post id: ' + id + ' by ' + name, tweets: list} )
+})
+
 module.exports = router;
